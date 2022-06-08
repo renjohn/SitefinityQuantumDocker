@@ -1,0 +1,25 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "quantumsitefinityrenderer",
+      "composeLaunchUrl": "{Scheme}://{ServiceIPAddress}{ServicePort}/",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "quantumsitefinitywebapp": "StartWithoutDebugging",
+        "quantumsitefinitysql": "StartWithoutDebugging",
+        "quantumsitefinityrenderer": "StartDebugging"
+      }
+    },
+    "Web App Only": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "quantumsitefinityrenderer": "DoNotStart",
+        "quantumsitefinitysql": "StartWithoutDebugging",
+        "quantumsitefinitywebapp": "StartWithoutDebugging"
+      }
+    }
+  }
+}

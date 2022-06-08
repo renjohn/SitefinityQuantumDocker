@@ -1,0 +1,39 @@
+version: '2.5'
+
+services:
+  quantumsitefinitysql:
+    image: mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+    container_name: quantumsitefinitysql
+    environment:
+    - SA_PASSWORD=Sitefinity14@2022
+    - ACCEPT_EULA=Y
+    restart: always
+    ports:
+    - "5400:1433" 
+    mem_limit: 2g
+
+  quantumsitefinitywebapp:
+    image: ${DOCKER_REGISTRY-}quantumsitefinitywebapp:14.1.7824
+    container_name: quantumsitefinitywebapp
+    dns: 8.8.8.8
+    build:
+      context: ./SitefinityWebApp
+      dockerfile: Dockerfile
+    ports: 
+    - "8085:80" 
+    mem_limit: 8g
+    depends_on:
+      - quantumsitefinitysql
+
+  quantumsitefinityrenderer:
+    image: ${DOCKER_REGISTRY-}quantumrenderer:14.1.7823.27
+    container_name: quantumsitefinityrenderer
+    build:
+      context: ./
+      dockerfile: Renderer/Dockerfile
+    ports:
+    - "5000:5000" 
+    - "5001:5001" 
+    depends_on:
+      - quantumsitefinitysql
+      - quantumsitefinitywebapp
