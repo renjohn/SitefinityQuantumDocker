@@ -1,76 +1,65 @@
-# Sitefinity 14 CMS Docker for Local Development
-
-This repository contains a docker implementation of the Sitefinity 14 with 3 tiers: database, cms backend, and cms frontend as their own containers.  This current implementation is intended only for local development, with the plans to evolve it to a full devops solution in the future.   This repository contains example compose files and associated configuration that we use internally at [Allegiance Group](https://www.teamallegiane.com).
-
-The examples contained in this repo were designed to allow us to quickly get up and running on a Sitefinity instance for local development purposes on a Windows 10 machine.  The database container is running on a Linux container.  The SitefinityWebApp is running on a WindowsServerCore container, and the Renderer container is running on a Windows Nano container.  This is a blank instance running on the base Progress.Sitefinity packages need to run each solution.  If you need additional Sitefintity modules, you will need to add them via nuget prior to building the containers.
-
-Some features:
-- Container build for the Sitefinity 14 CMS backend that can be ported to older Sitefinity projects
-- Options to use Visual Studio to build and publish the backend to the docker instance for faster development
-- Persistent app_data folder to store logs and the sitefinity license
-- Persistent sql_data folder for persistent database storage
-
-Each topology is designed to work in isolation.
+# Sitefinity Quantum Website built with Docker
+## Sitefinity Version 14.1.784
+This repository contains a fully functioning Sitefinty 14 CMS instance running the Quantum example site.  This solution can be brought up in a mins to help with demos or training.  This is based on the [Quantum Sample](https://github.com/Sitefinity/Telerik.Sitefinity.Samples.Quantum/#net-core-renderer-setup) and the base [Sitefinity Docker Repo](https://github.com/renjohn/SitefinityDocker)
 
 ## Prerequisites
 
 Hardware Requirements:
 * 40GB Free space
-  * Note: Can use less space by publishing backend from Visual Studio using Option 2 in the instructions below
 * 16GB RAM
 
 Software Requirements:
 * Docker Desktop 4.x - Running on experimental mode to allow both Linux and Windows VMs to run side by side.  The Windows VM is required for the Sitefinity CMS backend.  
+  * Switch to Windows containers in Docker for Windows tray
+  * Go to Docker Engine settings section and set experimental parameter to ‘true’
+  * Add a json setting for DNS to allow internet access to windows containers - "dns": [ "8.8.8.8"]
 * Visual Studio 2019+
+  * Should be run in administrator mode to avoid issues
 * Sitefinity License
-* This was designed for use on a Windows machine but can easily be ported to MAC/Linux
+* This was designed for use on a Windows machine 
 
 ## Directory Structure
 
-* data
-  * app_data - This directory maps to the Sitefinity Backend app_data directory where your license files,  configuration files, and log files are persistently stored
-  * https - This data is for storage of generated ssl certificate
+* data - This is a persistent data directory for the solution at the root of the git repo that contain the following sub directories
   * sql_data - This is directory is mounted to the container to store the sql database.  Your Sitefinity databases will be persisted here
-* Renderer - Location of the Sitefinty Frontend solution.  This is where you will run the main docker topology from
-* SitefinityWebApp - Location of the Sitefinity Backend solution.  This is where you can make any customizations for the backend of the product
+* src - This folder contains all the projects used to develop and run the application
+  * Renderer - Location of the Sitefinty Frontend solution.  This is where you will run the main docker topology from
+  * SitefinityWebApp - Location of the Sitefinity Backend solution.  This is where you can make any customizations for the backend of the product
 
 ## Getting Started
 
-The renderer project is setup to only build the renderer container each time and rely on prebuilt backend containers for effeciency.  This project assumes that most of the work and customizations are contained in the front end Renderer project.  This requires that you build out the backend containers first.  The only time you will need to rebuild the backend contianers is for module installation, upgrades, and customizations to the backend cms.  If you are still developing modules and customizations for the backend, it is recommended you use option 2 below for faster development times.
+The solution is setup to build the sitefinityrenderer and sitefinitywebapp containers each time.  For speed purposes, the Sitefinity Web App needs to be built in Visual Studio before you build the containers.  The reason for this is to avoid having to the build in a larger separate docker image that uses the .Net 3.5 Framework that is necessary for the Quantum Sitefinity WebApp.  The project is setup to allow you to code in both the backend and frontend project simultaneously. The DockerFile also has the option to build using a separate container commented out if needed for anything.
 
-### Option 1:
-This option will pull the .NET SDK docker image to build the Sitefinity backend, and publish it to .NET Runtime docker image.  This is the "docker" way of doing things, but requires a lot more hard drive space and time to execute.  If you are doing a lot of development on the Sitefinity CMS backend or have limited drive space, please use Option 2.
-1. Run `init.ps` in the root directory of the project.  This will build out the backend and frontend containers
-2. Open the Renderer solution in Visual studio 
-3. Switch the build context to Docker Compose
-4. Debug the project using Docker Compose
-5. Navigate to http://localhost:5000 to browse the site
+### Developing and Debugging the project using Visual Studio and Docker:
 
-### Option 2:
-1. Open the SitefinityWebApp Solution
-2. Open the Dockerfile
-3. Comment lines 1-26
-4. Uncomment lines 29-32
-5. Save the file
-6. Publish the SitefinityWebApp using the FolderPublish profile already in the project
-7. Perform the steps in Option 1
+These direction are for developing within Visual Studio and debugging using Docker compose from within Visual Studio.  
+1. Open the Sitefinity14Quantum.sln solution in Visual studio 
+2. Build the solution
+3. Switch the build configuration to docker compose
+4. Debug the project using Docker Compose options  
+5. A browser should open https://localhost:5001 
 
-## Custom Settings
+## Setting up the database
+1. Download the Sitefinity 14 database backup file from [here](https://sitefinitystore.blob.core.windows.net/files/Telerik.Sitefinity.Samples.Quantum/QuantumDb_V141_NetRenderer.zip)
+2. Unzip the file and place SitefinityQuanutmNetCore141v4.bak file in the ./data/sql_data/backup directory
+3. Create a Sitefinity.mdf and Sitefinity_log.ldf file in the ./data/sql_Data/data directory
+4. Run the restoredb.ps1 from the root directory
+  * Note:  The sql server container needs to be running in order for you to restore the database.
 
-The Docker Project Name is set in 2 places: one for the docker compose command line, one for the Visual Studio project.  This ensure that the container project namespace remains the same whether your run docker compose from the command line or from Visual Studio.  The command line variable COMPOSE_PROJECT_NAME is set in the Renderer/.env file.  The Visual Studio project name is set in the Renderer/docker-compose.dcproj file within the DockerComposeProjectName element.  It is recommended you update this variable for each project you run.
+## Sitefinity Initialization
 
-Memory Settings are set in the Renderer docker-compose.yml file as mem_limit 2GB for MySql, 8GB for the SitefinityWebApp backend.  You can increase/decrease the numbers based on your hardware situation.  I believe you need at least 1GB for MySql and 4GB for the backend.  You can also set a limit the same way for the Renderer.
+After you have restored the database you can re-run the docker compose in Visual Studio.  The first time you spin up your container you will need to enter values for your local instance
+1. Project Startup - Choose activate a license file that you have downloaded.
+    * The license file will be provided by the Tech Lead
+2. Database Settings
+    * MS SQL Server
+    * Server:  quantumsitefinitysql
+    * Port: 1433
+    * Password:  See .env file in root of solution
+    * Database Name: Sitefinity
+3. Login with admin / admin@2
 
-## SSL
 
-The containers are running on http vs https.  To enable https for the front end server you will need to go through a few steps.
-1. Set useSSL to true in Renderer/Properties/launch.json
-2. Uncomment line 33 in the Renderer/docker-compose.override.yml file
-3.  Generate a certificate  with the following commands from the Renderer directory in Powershell.  Feel free to change the password "sitefinity14" in the commands.
-    dotnet dev-certs https --clean
-    dotnet dev-certs https -ep ..\data\https\renderer.pfx -p sitefinity14
-    dotnet dev-certs https --trust
-    dotnet user-secrets -p Renderer\Renderer.csproj set "Kestrel:Certificates:Development:Password" "sitefinity14"
-
-This works, but required me to regenerate the SSL everytime the contianer was rebuilt even though the certificate was persisted.  It also required me to add/remove my volume mounts in my docker override as they tended to get sticky.  As this is for local development purposes, I turned of SSL to get rid of these annoyances. 
-
+## Styling of the page sample
+In `client-src` directory you can find all the assets needed for the front-end representation of the Quantum sample demo. If you want to play around with them all you have to do is to install [NodeJS](https://nodejs.org/) (version 14.15.1) navigate to `client-src` folder and run `npm i` followed by `npm start`. This will precompile all the SCSS file to CSS, copy all the needed assets (fonts) and uglify sample's JavaScript file. On top of this, it will run a watch task that will do the previous tasks when SCSS file or JS file is modified.
+Following the [Bootstrap customization](https://getbootstrap.com/docs/5.0/customize/overview/) instructions in `client-src/scss/vendors/_bootstrap.scss` we have overridden some of the variables that did not meet our design requirements, such as spacings, breakpoints and container widths. We urge you to follow this approach when using [Bootstrap](https://getbootstrap.com/) as "This is the way" (yes, Mandalorian pun intended). If you can use the Bootstrap "as is" you can check its usage in the [_Layout.cshtml](https://github.com/Sitefinity/sitefinity-aspnetcore-mvc-samples/blob/gebov/samples-for-13.2/src/starter-template/Views/Shared/_Layout.cshtml#L14) within the [.NET Core starter template sample](https://github.com/Sitefinity/sitefinity-aspnetcore-mvc-samples/tree/gebov/samples-for-13.2/src/starter-template).
