@@ -6,7 +6,7 @@
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>renderer</DockerServiceName>
-    <DockerComposeProjectName>SITEFINITYQUANTUM14</DockerComposeProjectName>
+    <DockerComposeProjectName>sitefinityquantum</DockerComposeProjectName>
   </PropertyGroup>
   <PropertyGroup>
     <DockerTargetOS>Windows</DockerTargetOS>
@@ -15,7 +15,6 @@
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
-    <None Include="docker-compose.vs.debug.g.yml" />
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>

@@ -3,7 +3,7 @@ version: '2.5'
 services:
   quantumsitefinitysql:
     image: mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
-    container_name: quantumsitefinitysql
+    container_name: quantumsitefinitysql1
     environment:
     - SA_PASSWORD=Sitefinity14@2022
     - ACCEPT_EULA=Y
@@ -14,7 +14,7 @@ services:
 
   quantumsitefinitywebapp:
     image: ${DOCKER_REGISTRY-}quantumsitefinitywebapp:14.1.7824
-    container_name: quantumsitefinitywebapp
+    container_name: quantumsitefinitywebapp1
     dns: 8.8.8.8
     build:
       context: ./SitefinityWebApp
@@ -27,7 +27,7 @@ services:
 
   quantumsitefinityrenderer:
     image: ${DOCKER_REGISTRY-}quantumrenderer:14.1.7823.27
-    container_name: quantumsitefinityrenderer
+    container_name: quantumsitefinityrenderer1
     build:
       context: ./
       dockerfile: Renderer/Dockerfile

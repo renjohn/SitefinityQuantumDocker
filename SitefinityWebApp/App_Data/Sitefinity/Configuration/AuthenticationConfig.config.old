@@ -5,12 +5,16 @@
 			<identityServerClients>
 				<add clientName="sitefinity" config:flags="1">
 					<redirectUris>
-						<add redirectUri="http://quantumsitefinitywebapp/assets/auth/silent-renew.html" />
-						<add redirectUri="http://quantumsitefinitywebapp/auth/oidc/sign-in" />
+						<add redirectUri="http://cms.quantum.local/assets/auth/silent-renew.html" />
+						<add redirectUri="http://cms.quantum.local/auth/oidc/sign-in" />
+						<add redirectUri="http://www.quantum.local/assets/auth/silent-renew.html" />
+						<add redirectUri="http://www.quantum.local/auth/oidc/sign-in" />
 						<add redirectUri="http://localhost:4200/assets/auth/silent-renew.html" />
 						<add redirectUri="http://localhost:4200/auth/oidc/sign-in" />
 						<add redirectUri="http://localhost:5000/assets/auth/silent-renew.html" />
 						<add redirectUri="http://localhost:5000/auth/oidc/sign-in" />
+						<add redirectUri="https://localhost:5001/assets/auth/silent-renew.html" />
+						<add redirectUri="https://localhost:5001/auth/oidc/sign-in" />
 						<add redirectUri="http://localhost:8085/assets/auth/silent-renew.html" />
 						<add redirectUri="http://localhost:8085/auth/oidc/sign-in" />
 						<add redirectUri="http://quantum-headless.sitefinity.site/assets/auth/silent-renew.html" />
@@ -19,15 +23,17 @@
 					<postLogoutRedirectUris>
 						<add redirectUri="http://localhost:4200/auth/oidc/sign-out" />
 						<add redirectUri="http://localhost:5000/auth/oidc/sign-out" />
+						<add redirectUri="https://localhost:5001/auth/oidc/sign-out" />
 						<add redirectUri="http://localhost:8085/auth/oidc/sign-out" />
-						<add redirectUri="http://quantumsitefinitywebapp/auth/oidc/sign-out" />
+						<add redirectUri="http://cms.quantum.local/auth/oidc/sign-out" />
 						<add redirectUri="http://quantum-headless.sitefinity.site/auth/oidc/sign-out" />
 					</postLogoutRedirectUris>
 					<allowedCorsOrigins>
 						<add allowedCorsOrigin="http://localhost:4200" />
 						<add allowedCorsOrigin="http://localhost:5000" />
+						<add allowedCorsOrigin="https://localhost:5001" />
 						<add allowedCorsOrigin="http://localhost:8085" />
-						<add allowedCorsOrigin="http://quantumsitefinitywebapp" />
+						<add allowedCorsOrigin="http://cms.quantum.local" />
 						<add allowedCorsOrigin="http://quantum-headless.sitefinity.site" />
 					</allowedCorsOrigins>
 				</add>

@@ -30,6 +30,17 @@ WORKDIR /inetpub/wwwroot
 COPY obj/Docker/publish ./
 SHELL ["powershell"] 
 RUN & ICACLS "'C:\inetpub\wwwroot\App_Data'  /grant 'IIS APPPOOL\DefaultAppPool:(OI)(CI)F' /T"
+RUN powershell -Command Add-WindowsFeature NET-WCF-HTTP-Activation45 
+
+#Install self signed certificate for local development
+RUN powershell.exe -Command " \
+    Import-Module IISAdministration; \
+    $cert = New-SelfSignedCertificate -DnsName %hostname% -CertStoreLocation cert:\LocalMachine\My; \
+    $certHash = $cert.GetCertHash(); \
+    $sm = Get-IISServerManager; \
+    $sm.Sites[\"Default Web Site\"].Bindings.Add(\"*:443:\", $certHash, \"My\", \"0\"); \
+    $sm.CommitChanges();"
+
 
 ##Enable Remote Debugging for either option uncomment line 30-32.  Should only be done in development
 #EXPOSE 4020 4021
