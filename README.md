@@ -1,8 +1,8 @@
 # Sitefinity Quantum Website built with Docker
 ## Sitefinity Version 14.1.784
-This repository contains a fully functioning Sitefinty 14 CMS instance running the Quantum example site.  This solution can be brought up in a mins to help with demos or training.  This is based on the [Quantum Sample](https://github.com/Sitefinity/Telerik.Sitefinity.Samples.Quantum/#net-core-renderer-setup) and the base [Sitefinity Docker Repo](https://github.com/renjohn/SitefinityDocker)
+This repository contains a fully functioning Sitefinty 14 CMS instance running the Quantum example site.  This solution can be brought up in a mins to help with demos or training.  This is based on the [Quantum Sample](https://github.com/Sitefinity/Telerik.Sitefinity.Samples.Quantum/#net-core-renderer-setup) and the base [Sitefinity Docker Repo](https://github.com/renjohn/SitefinityDocker).  This repository was forked from the Quantum Sample and is maintained [Allegiance Group](https://www.teamallegiance.com).
 
-## Prerequisites
+### Prerequisites
 
 Hardware Requirements:
 * 40GB Free space
@@ -18,7 +18,7 @@ Software Requirements:
 * Sitefinity License
 * This was designed for use on a Windows machine 
 
-## Directory Structure
+### Directory Structure
 
 * data - This is a persistent data directory for the solution at the root of the git repo that contain the following sub directories
   * sql_data - This is directory is mounted to the container to store the sql database.  Your Sitefinity databases will be persisted here
@@ -39,14 +39,14 @@ These direction are for developing within Visual Studio and debugging using Dock
 4. Debug the project using Docker Compose options  
 5. A browser should open https://localhost:5001 
 
-## Setting up the database
+### Setting up the database
 1. Download the Sitefinity 14 database backup file from [here](https://sitefinitystore.blob.core.windows.net/files/Telerik.Sitefinity.Samples.Quantum/QuantumDb_V141_NetRenderer.zip)
 2. Unzip the file and place SitefinityQuanutmNetCore141v4.bak file in the ./data/sql_data/backup directory
 3. Create a Sitefinity.mdf and Sitefinity_log.ldf file in the ./data/sql_Data/data directory
 4. Run the restoredb.ps1 from the root directory
   * Note:  The sql server container needs to be running in order for you to restore the database.
 
-## Sitefinity Initialization
+### Sitefinity Initialization
 
 After you have restored the database you can re-run the docker compose in Visual Studio.  The first time you spin up your container you will need to enter values for your local instance
 1. Project Startup - Choose activate a license file that you have downloaded.
