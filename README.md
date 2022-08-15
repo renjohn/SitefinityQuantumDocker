@@ -20,7 +20,6 @@ Software Requirements:
 
 ### Directory Structure
 * data - This is a persistent data directory for the solution at the root of the git repo that contain the following sub directories
-  * app_data - This directory maps to the Sitefinity Backend app_data directory where your license files,  configuration files, and log files are persistently stored
   * sql_data - This is directory is mounted to the container to store the sql database and backups
       * backup - A directory to put backup files to be restored to your instance
       * data - Your Sitefinity databases will be persisted here
@@ -53,5 +52,7 @@ The first time you spin up your container you will need to enter values for your
 1. Download the Sitefinity 14 database backup file from [here](https://sitefinitystore.blob.core.windows.net/files/Telerik.Sitefinity.Samples.Quantum/QuantumDb_V141_NetRenderer.zip)
 2. Unzip the file and place SitefinityQuanutmNetCore141v4.bak file in the ./data/sql_data/backup directory
 3. Run the restoredb.ps1 from the root directory
-  * Note:  The sql server container needs to be running in order for you to restore the database.  You will now login with admin / admin@2 instead of the user you created above
+  * Note:  The sql server container needs to be running in order for you to restore the database.  
+4. Refresh the site
+5. Login with admin / admin@2 instead of the user you created above
 
