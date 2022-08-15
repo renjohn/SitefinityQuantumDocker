@@ -3,7 +3,7 @@ version: '2.5'
 services:
   quantumsitefinitysql:
     hostname: quantumsitefinitysql
-    container_name: quantumsitefinitysql1
+    container_name: quantumsitefinitysql
     environment:
       - SA_PASSWORD=Sitefinity14@2022
       - ACCEPT_EULA=Y      
@@ -16,7 +16,7 @@ services:
 
   quantumsitefinitywebapp:
     hostname: cms.quantum.local
-    container_name: quantumsitefinitywebapp1
+    container_name: quantumsitefinitywebapp
     ports:
       - "4020:4020"
       - "4021:4021"
@@ -27,7 +27,7 @@ services:
    
   quantumsitefinityrenderer:
     hostname: www.quantum.local
-    container_name: quantumsitefinityrenderer1
+    container_name: quantumsitefinityrenderer
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:5001;http://+:5000
