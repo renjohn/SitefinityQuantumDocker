@@ -4,7 +4,7 @@
 #For more information, please see https://aka.ms/containercompat
 
 #Setup Base .net core 6.0 with iis image to publish to with required ports open
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS base
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -12,7 +12,7 @@ EXPOSE 5000
 EXPOSE 5001
 
 #Intermediary build container with full SDK
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 #Setup nuget package sources
 WORKDIR /src
 #Setup nuget package sources
