@@ -141,3 +141,5 @@ Feather.sln.GhostDoc.xml
 /.vs/*
 *.aiis
 
+*.v2
+/SitefinityWebApp/App_Data/Sitefinity/Search/advanced-settings-search

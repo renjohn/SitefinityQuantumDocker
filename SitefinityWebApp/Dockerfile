@@ -1,4 +1,4 @@
-### OPTION 1
+### OPTION 1 - Build SitefinityWebApp in Build container and publish to Runtime container
 ##Set build container to correct .Net Framework SDK Version
 #FROM mcr.microsoft.com/dotnet/framework/sdk:3.5-windowsservercore-20H2 AS build
 #WORKDIR /app
@@ -20,7 +20,7 @@
 #SHELL ["powershell"] 
 #RUN & ICACLS "'C:\inetpub\wwwroot\App_Data'  /grant 'IIS APPPOOL\DefaultAppPool:(OI)(CI)F' /T"
 
-### OPTION 2 - Faster build startup.   
+### OPTION 2 - Publish SitefinityWebApp in Visual Studio and copy to Runtime container.  This is faster build startup.   
 ##    1.Comment out all lines above   
 ##    2.Uncomment lines 28-32  
 ##    3.Publish the SitefinityWebApp from Visual Studio with Folder Publish Profile  

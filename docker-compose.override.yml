@@ -23,7 +23,7 @@ services:
       - "8085:80"
       - "8086:443"
     volumes:
-      - .\:C:\inetpub\wwwroot
+      - ./data/app_data:C:/inetpub/wwwroot/App_Data 
    
   quantumsitefinityrenderer:
     hostname: www.quantum.local

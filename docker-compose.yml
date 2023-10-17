@@ -13,7 +13,7 @@ services:
     mem_limit: 2g
 
   quantumsitefinitywebapp:
-    image: ${DOCKER_REGISTRY-}quantumsitefinitywebapp:14.1.7824
+    image: ${DOCKER_REGISTRY-}quantumsitefinitywebapp:14.4.8132
     container_name: quantumsitefinitywebapp
     dns: 8.8.8.8
     build:
@@ -26,7 +26,7 @@ services:
       - quantumsitefinitysql
 
   quantumsitefinityrenderer:
-    image: ${DOCKER_REGISTRY-}quantumrenderer:14.1.7823.27
+    image: ${DOCKER_REGISTRY-}quantumrenderer:14.1.8132.17
     container_name: quantumsitefinityrenderer
     build:
       context: ./
